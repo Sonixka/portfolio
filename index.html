@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Soňa Pařízková | Junior Web Developer</title>
+  <meta name="description" content="Portfolio – Soňa Pařízková (Sonixka). HTML/CSS, základy JavaScriptu, Python/Flask. Projekty, dovednosti, kontakt." />
+  <meta name="theme-color" content="#0b0c10" />
+
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.04);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.14);
+      --accent: #b36bff;
+      --accent2:#6ee7ff;
+      --good:#67e8a3;
+      --shadow: 0 18px 44px rgba(0,0,0,.38);
+      --radius: 18px;
+      --radius2: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(179,107,255,.22), transparent 55%),
+        radial-gradient(900px 520px at 85% 18%, rgba(110,231,255,.16), transparent 55%),
+        radial-gradient(700px 420px at 45% 90%, rgba(179,107,255,.12), transparent 55%),
+        linear-gradient(to bottom, rgba(0,0,0,.0), rgba(0,0,0,.25)),
+        var(--bg);
+      line-height:1.6;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(1120px, 92vw); margin:0 auto; }
+
+    /* subtle animation */
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { animation: floatIn .55s ease both; }
+    .delay-1{ animation-delay:.06s; }
+    .delay-2{ animation-delay:.12s; }
+    .delay-3{ animation-delay:.18s; }
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(11,12,16,.90), rgba(11,12,16,.58));
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:700; letter-spacing:.2px;
+      min-width: 240px;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(179,107,255,.95), rgba(110,231,255,.75));
+      box-shadow: var(--shadow);
+      color:#0b0c10;
+      font-weight:900;
+    }
+    .brand small{ display:block; color:var(--muted); font-weight:600; margin-top:2px; }
+
+    nav{ display:flex; align-items:center; gap:10px; }
+    nav a{
+      font-size:14px; color:var(--muted);
+      padding:8px 10px; border-radius:12px;
+      transition: .2s ease;
+      border: 1px solid transparent;
+    }
+    nav a:hover{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+    }
+
+    .cta-row{ display:flex; gap:10px; align-items:center; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      font-weight:700;
+      font-size:14px;
+      cursor:pointer;
+      transition: .2s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
+    .btn.primary{
+      border:1px solid rgba(179,107,255,.55);
+      background: linear-gradient(135deg, rgba(179,107,255,.95), rgba(110,231,255,.75));
+      color:#071016;
+    }
+    .btn.primary:hover{ filter:saturate(1.05) brightness(1.03); }
+    .btn.ghost{
+      background: rgba(255,255,255,.03);
+    }
+    .btn.small{ padding:9px 12px; font-size:13px; }
+
+    /* Mobile nav */
+    .menu-btn{ display:none; }
+    .nav-mobile{
+      display:none;
+      padding: 0 0 14px;
+    }
+    .nav-mobile a{
+      display:block;
+      padding:12px 10px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .nav-mobile a:hover{ color: var(--text); }
+    .nav-mobile.open{ display:block; }
+
+    /* Layout blocks */
+    section{ padding: 26px 0; }
+
+    .card{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border-radius: var(--radius2);
+      padding:20px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+      margin-bottom: 12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.25px;
+    }
+    .section-title p{ margin:0; color: var(--muted); font-size: 14px; }
+
+    .muted{ color:var(--muted); }
+
+    /* Hero */
+    .hero{ padding: 52px 0 18px; }
+    .hero-grid{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:16px;
+      align-items:stretch;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .badge .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--good);
+      box-shadow: 0 0 0 4px rgba(103,232,163,.12);
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 4.2vw, 46px);
+      line-height:1.12;
+      letter-spacing:.25px;
+    }
+    .hero p{
+      margin:0 0 14px;
+      font-size: 16px;
+    }
+
+    .hero-actions{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top: 12px;
+    }
+
+    .focus-row{
+      display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;
+    }
+    .pill{
+      font-size: 13px;
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.74);
+    }
+    .pill strong{ color: var(--text); font-weight:800; }
+
+    /* Right hero panel */
+    .kpi{
+      display:grid; gap:12px;
+    }
+    .kpi-item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px 14px;
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .kpi-icon{
+      width:34px; height:34px; border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(179,107,255,.16);
+      border:1px solid rgba(179,107,255,.28);
+      flex:0 0 auto;
+    }
+    .kpi-item strong{ display:block; font-size:14px; margin-bottom:2px; }
+    .kpi-item span{ font-size:13px; color: var(--muted); }
+
+    /* Proof row */
+    .proof{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .proof .mini{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 12px 14px;
+    }
+    .proof .mini b{ display:block; font-size:13px; margin-bottom:4px; }
+    .proof .mini span{ font-size:13px; color: var(--muted); }
+
+    /* Projects */
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .project h3{ margin:0 0 6px; font-size: 16px; }
+    .project p{ margin:0 0 12px; color: var(--muted); font-size: 14px; }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 12px; }
+    .tag{
+      font-size: 12px;
+      padding:6px 9px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.74);
+    }
+    .project .links{ display:flex; gap:10px; flex-wrap:wrap; }
+
+    /* Skills */
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .list li{ margin: 6px 0; }
+
+    /* Timeline */
+    .timeline{
+      display:grid;
+      gap: 12px;
+    }
+    .t-item{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding: 12px 14px;
+      display:flex; gap:12px;
+    }
+    .t-dot{
+      width:12px; height:12px; border-radius:999px;
+      margin-top: 6px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 4px rgba(110,231,255,.14);
+      flex:0 0 auto;
+    }
+    .t-item b{ display:block; font-size:14px; margin-bottom:2px; }
+    .t-item span{ display:block; color: var(--muted); font-size:13px; }
+
+    /* Contact */
+    .contact-grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .contact-item{
+      display:flex; gap:10px; align-items:center;
+      padding:12px 14px;
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      margin-top: 10px;
+    }
+    .icon{
+      width:34px; height:34px; border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(179,107,255,.16);
+      border:1px solid rgba(179,107,255,.28);
+    }
+
+    .footer{
+      padding: 24px 0 44px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+    }
+
+    /* Responsive */
+    @media (max-width: 920px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
+      .grid-2{ grid-template-columns: 1fr; }
+      .contact-grid{ grid-template-columns: 1fr; }
+      .proof{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px){
+      nav{ display:none; }
+      .menu-btn{ display:inline-flex; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo">S</div>
+          <div>
+            <div style="font-size:14px; font-weight:900;">Soňa Pařízková</div>
+            <small>Junior Web Developer • HTML kodér</small>
+          </div>
+        </div>
+
+        <nav aria-label="Hlavní navigace">
+          <a href="#o-mne">O mně</a>
+          <a href="#projekty">Projekty</a>
+          <a href="#dovednosti">Dovednosti</a>
+          <a href="#cesta">Cesta</a>
+          <a href="#kontakt">Kontakt</a>
+        </nav>
+
+        <div class="cta-row">
+          <button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navMobile">Menu</button>
+          <a class="btn primary" href="#kontakt">Napište mi</a>
+        </div>
+      </div>
+
+      <div class="nav-mobile" id="navMobile">
+        <a href="#o-mne">O mně</a>
+        <a href="#projekty">Projekty</a>
+        <a href="#dovednosti">Dovednosti</a>
+        <a href="#cesta">Cesta</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div class="card reveal">
+          <div class="badge"><span class="dot"></span> Otevřená junior pozicím • Zlín / remote</div>
+          <h1>Stavím čisté, responzivní weby v HTML/CSS a postupně přidávám JavaScript.</h1>
+          <p class="muted">
+            Jmenuji se Soňa Pařízková. Po rekvalifikaci se zaměřuji na převod návrhů do pixel-friendly kódu,
+            konzistentní UI a přehlednou strukturu stránky. Současně rozvíjím Python a Flask pro menší webové aplikace.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#projekty">Zobrazit projekty</a>
+            <a class="btn ghost" href="#o-mne">Rychle o mně</a>
+
+            <a class="btn" href="CV_Sona_Parizkova.pdf" target="_blank" rel="noopener">
+              CV (PDF)
+            </a>
+
+            <a class="btn" href="Rekvalifikace_Sona_Parizkova.pdf" target="_blank" rel="noopener">
+              Rekvalifikace (PDF)
+            </a>
+          </div>
+
+          <div class="focus-row" aria-label="Zaměření">
+            <span class="chip"><strong>HTML</strong> sémantika</span>
+            <span class="chip"><strong>CSS</strong> flex/grid</span>
+            <span class="chip"><strong>Responsive</strong> mobile-first</span>
+            <span class="chip"><strong>JS</strong> DOM základy</span>
+            <span class="chip"><strong>Flask</strong> základy</span>
+          </div>
+
+          <div class="proof">
+            <div class="mini">
+              <b>Co doručím</b>
+              <span>čisté HTML/CSS + responzivita</span>
+            </div>
+            <div class="mini">
+              <b>Na co si potrpím</b>
+              <span>detaily, typografie, konzistence</span>
+            </div>
+            <div class="mini">
+              <b>Jak pracuji</b>
+              <span>rychlá iterace + průběžné zlepšování</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card reveal delay-1">
+          <div class="section-title" style="margin-bottom:10px;">
+            <h2>Rychlý přehled</h2>
+            <p>co nabízím</p>
+          </div>
+
+          <div class="kpi">
+            <div class="kpi-item">
+              <div class="kpi-icon">📱</div>
+              <div>
+                <strong>Responzivní layouty</strong>
+                <span>mobile-first, čisté breakpoints</span>
+              </div>
+            </div>
+
+            <div class="kpi-item">
+              <div class="kpi-icon">🧩</div>
+              <div>
+                <strong>UI komponenty</strong>
+                <span>karty, tlačítka, štítky, sekce</span>
+              </div>
+            </div>
+
+            <div class="kpi-item">
+              <div class="kpi-icon">⚡</div>
+              <div>
+                <strong>JS interakce</strong>
+                <span>menu, validace, drobné efekty</span>
+              </div>
+            </div>
+
+            <div class="kpi-item">
+              <div class="kpi-icon">🧪</div>
+              <div>
+                <strong>Flask základy</strong>
+                <span>routy, šablony, jednoduché appky</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="muted" style="margin-top:14px; font-size:13px;">
+            Hledám juniorní pozici, kde budu převádět návrhy do HTML/CSS a postupně růst.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="o-mne">
+      <div class="section-title">
+        <h2>O mně</h2>
+        <p>stručně a věcně</p>
+      </div>
+
+      <div class="card reveal delay-2">
+        <p class="muted" style="margin:0;">
+          Po rekvalifikaci na tvorbu webových stránek jsem začala stavět vlastní projekty a pravidelně trénovat praxi.
+          Nejvíc mě baví přesnost v rozložení (layout), čisté CSS, a to, když UI drží konzistentní styl.
+          Zároveň rozvíjím JavaScript pro interakce a Python/Flask pro menší webové aplikace.
+        </p>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projekty">
+      <div class="section-title">
+        <h2>Projekty</h2>
+        <p>ukázky práce</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card project reveal">
+          <h3>Job Application Tracker (Flask)</h3>
+          <p>
+            Webová aplikace pro evidenci pracovních žádostí: přidání záznamu, přehled, úpravy – základní CRUD.
+          </p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">Flask</span>
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">Datová práce</span>
+          </div>
+          <div class="links">
+            <a class="btn small" href="#" onclick="return false;" title="Až budeš mít, vlož odkaz na repo">GitHub (doplním)</a>
+            <a class="btn small" href="#" onclick="return false;" title="Až budeš mít, vlož odkaz na demo">Live demo (doplním)</a>
+          </div>
+        </article>
+
+        <article class="card project reveal delay-1">
+          <h3>Portfolio (tento web)</h3>
+          <p>
+            One-page portfolio s jemnými animacemi, mobilním menu a sekcemi pro projekty, dovednosti a kontakt.
+          </p>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JS</span>
+            <span class="tag">Responsive</span>
+          </div>
+          <div class="links">
+            <a class="btn small" href="#top">Zobrazit</a>
+          </div>
+        </article>
+
+        <article class="card project reveal delay-2">
+          <h3>Mini UI / komponenty</h3>
+          <p>
+            Drobné UI prvky (karty, štítky, tlačítka) s důrazem na typografii, spacing a konzistenci.
+          </p>
+          <div class="tags">
+            <span class="tag">UI</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Detail</span>
+          </div>
+          <div class="links">
+            <a class="btn small" href="#dovednosti">Co umím</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="muted" style="margin:12px 2px 0; font-size:13px;">
+        Tip: Jakmile přidáš reálné odkazy na GitHub a live demo, portfolio bude působit o level výš.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="dovednosti">
+      <div class="section-title">
+        <h2>Dovednosti</h2>
+        <p>technologie a přístup</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card reveal">
+          <h3 style="margin:0 0 8px;">Frontend</h3>
+          <ul class="list">
+            <li>HTML5 – sémantika, struktura, formuláře</li>
+            <li>CSS3 – flex/grid, responzivita, čistý spacing</li>
+            <li>JavaScript – DOM základy (menu, klik, validace, jednoduché efekty)</li>
+          </ul>
+        </div>
+
+        <div class="card reveal delay-1">
+          <h3 style="margin:0 0 8px;">Backend základy</h3>
+          <ul class="list">
+            <li>Python – základy, práce se soubory, jednoduché skripty</li>
+            <li>Flask – routy, šablony, jednoduchá web aplikace</li>
+            <li>VS Code, virtuální prostředí (.venv)</li>
+          </ul>
+        </div>
+
+        <div class="card reveal delay-2">
+          <h3 style="margin:0 0 8px;">Kvalita práce</h3>
+          <ul class="list">
+            <li>čitelnost kódu, konzistence názvů</li>
+            <li>pixel-friendly layout (zarovnání, typografie)</li>
+            <li>přehledná struktura a opakovatelné komponenty</li>
+          </ul>
+        </div>
+
+        <div class="card reveal delay-3">
+          <h3 style="margin:0 0 8px;">Co hledám</h3>
+          <ul class="list">
+            <li>juniorní pozici HTML kodér / junior web developer</li>
+            <li>reálné úkoly, pravidelný feedback</li>
+            <li>možnost růst a učit se na projektech</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="cesta">
+      <div class="section-title">
+        <h2>Moje cesta</h2>
+        <p>jednoduše</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div>
+              <b>Rekvalifikace: tvorba webových stránek</b>
+              <span>HTML, CSS, JavaScript, Python, Flask – základ pro praxi</span>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div>
+              <b>Pravidelné projekty a trénink</b>
+              <span>portfolio, UI komponenty, malé weby a Flask aplikace</span>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-dot"></div>
+            <div>
+              <b>Cíl: junior pozice + růst v praxi</b>
+              <span>HTML/CSS praxe, přidávání JS, postupně větší projekty</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin:14px 0 0; font-size:13px;">
+          Rekvalifikaci a CV najdeš výše v tlačítkách (PDF).
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="kontakt">
+      <div class="section-title">
+        <h2>Kontakt</h2>
+        <p>pojďme se spojit</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card reveal">
+          <p class="muted" style="margin:0;">
+            Pokud vás moje práce zaujala, napište mi. Ráda doplním informace a ukážu další ukázky kódu.
+          </p>
+
+          <div class="contact-item">
+            <div class="icon" aria-hidden="true">✉️</div>
+            <div>
+              <div style="font-weight:800;">E-mail</div>
+              <div class="muted"><a href="mailto:sonixka@seznam.cz">sonixka@seznam.cz</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="icon" aria-hidden="true">📞</div>
+            <div>
+              <div style="font-weight:800;">Telefon</div>
+              <div class="muted"><a href="tel:+420732580819">+420 732 580 819</a></div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="icon" aria-hidden="true">📍</div>
+            <div>
+              <div style="font-weight:800;">Lokalita</div>
+              <div class="muted">Zlín / remote</div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn primary" id="copyEmail">Zkopírovat e-mail</button>
+            <button class="btn" id="copyPhone">Zkopírovat telefon</button>
+          </div>
+        </div>
+
+        <div class="card reveal delay-1">
+          <h3 style="margin:0 0 8px;">Krátká zpráva do formuláře</h3>
+          <p class="muted" style="margin:0 0 12px; font-size:14px;">
+            Můžeš zkopírovat a vložit třeba na Jobstack.
+          </p>
+
+          <div style="border:1px solid var(--line); border-radius:18px; padding:12px; background: rgba(255,255,255,.03);">
+            <p class="muted" style="margin:0; font-size:14px;">
+              Dobrý den,<br>
+              reaguji na pozici HTML kodér. Po rekvalifikaci se zaměřuji na tvorbu responzivních webů v HTML/CSS a rozvíjím základy JavaScriptu.
+              Pracovala jsem také na menších projektech v Pythonu/Flask. Jsem pečlivá, spolehlivá a rychle se učím. Budu ráda za možnost pohovoru.<br>
+              Děkuji a přeji hezký den,<br>
+              Soňa Pařízková
+            </p>
+          </div>
+
+          <button class="btn" style="margin-top:12px;" id="copyMessage">Zkopírovat zprávu</button>
+
+          <hr style="border:none; border-top:1px solid var(--line); margin:16px 0;">
+
+          <h3 style="margin:0 0 8px;">GitHub</h3>
+          <p class="muted" style="margin:0; font-size:14px;">
+            Až budeš mít GitHub link, vlož ho sem do textu (a doplň ho i do CV).
+          </p>
+          <p class="muted" style="margin:10px 0 0; font-size:13px;">
+            Např.: github.com/tvoje-uzivatelske-jmeno
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © <span id="year"></span> Soňa Pařízková • Portfolio web
+    </div>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const menuBtn = document.getElementById("menuBtn");
+    const navMobile = document.getElementById("navMobile");
+    if (menuBtn) {
+      menuBtn.addEventListener("click", () => {
+        const open = navMobile.classList.toggle("open");
+        menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      navMobile.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+        navMobile.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }));
+    }
+
+    // Copy helpers
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("Zkopírováno do schránky ✅");
+      }catch(e){
+        const t = document.createElement("textarea");
+        t.value = text;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand("copy");
+        document.body.removeChild(t);
+        alert("Zkopírováno do schránky ✅");
+      }
+    }
+
+    document.getElementById("copyEmail").addEventListener("click", () => copyText("sonixka@seznam.cz"));
+    document.getElementById("copyPhone").addEventListener("click", () => copyText("+420 732 580 819"));
+    document.getElementById("copyMessage").addEventListener("click", () => copyText(
+`Dobrý den,
+reaguji na pozici HTML kodér. Po rekvalifikaci se zaměřuji na tvorbu responzivních webů v HTML/CSS a rozvíjím základy JavaScriptu. Pracovala jsem také na menších projektech v Pythonu/Flask. Jsem pečlivá, spolehlivá a rychle se učím. Budu ráda za možnost pohovoru.
+Děkuji a přeji hezký den,
+Soňa Pařízková`
+    ));
+  </script>
+</body>
+</html>
